@@ -7,7 +7,7 @@ export interface Post {
   id: number;
   user: User;
   content: string;
-  date: string;
+  date: Date;
   likes: number;
   comments: Comment[];
 }
@@ -16,5 +16,5 @@ export interface Comment {
   id: number;
   user: User;
   content: string;
-  date: string;
+  date: Date;
 }

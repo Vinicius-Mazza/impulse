@@ -6,14 +6,19 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-export const HeaderComponent = () => {
+interface HeaderProps {
+  onFilterChange: (tab: string) => void;
+}
+
+export const HeaderComponent: React.FC<HeaderProps> = ({ onFilterChange }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   // const textColor = useColorModeValue('gray.800', 'white');
 
-  const [activeTab, setActiveTab] = useState('recents');
+  const [activeTab, setActiveTab] = useState('popular');
 
-  const handleTabClick = (tab: React.SetStateAction<string>) => {
+  const handleTabClick = (tab: string) => {
     setActiveTab(tab);
+    onFilterChange(tab);
   };
 
   return (

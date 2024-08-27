@@ -14,7 +14,7 @@ export const PostComponent: React.FC<PostType> = ({ user, content, date, likes, 
           <Box ml='2'>
             <Text fontWeight='bold'>{user.name}</Text>
             <Text fontSize='sm' color='gray.500'>
-              {date}
+              {new String(date.toLocaleDateString('pt-BR'))}
             </Text>
           </Box>
         </Flex>
