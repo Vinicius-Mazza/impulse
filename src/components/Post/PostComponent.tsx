@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Avatar, Box, Flex, Text, Button, Image } from '@chakra-ui/react';
 import { Avatar, Box, Flex, Text, Button } from '@chakra-ui/react';
-import { Post as PostType } from '../../interfaces/types';
+import { Post as PostType } from '../../interfaces';
 
 
 export const PostComponent: React.FC<PostType> = ({ user, content, date, likes, comments }) => {

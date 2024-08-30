@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 import { HeaderComponent, PostComponent } from '../components'
-import { Post as PostType } from '../interfaces/types';
+import { Post as PostType } from '../interfaces';
+import { filterPosts, FilterType } from '../utils/filters'
 
 export const Feeds: React.FC = () => {
   const [posts, setPosts] = useState<PostType[]>([
@@ -9,7 +10,7 @@ export const Feeds: React.FC = () => {
       id: 1,
       user: { name: 'John Doe', avatar: 'avatar.jpg' },
       content: 'Hello, world!',
-      date: new Date("2024-08-23"),
+      date: new Date("2024-08-27"),
       likes: 10,
       comments: [],
     },
@@ -30,35 +31,13 @@ export const Feeds: React.FC = () => {
       comments: [],
     }
   ]);
-  const [filter, setFilter] = useState('popular');
+  
+  const [filter, setFilter] = useState<FilterType>(FilterType.Popular);
 
-  const handleFilterChange = (tab: string) => {
+  const handleFilterChange = (tab: FilterType) => {
     setFilter(tab);
   };
-
-  const filteredPosts = posts.filter((post) => {
-    switch (filter) {
-      case 'recents':
-        const oneWeekAgo = new Date();
-        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-        oneWeekAgo.setHours(0, 0, 0, 0);
-  
-        const postDateUTC = new Date(post.date).toUTCString();
-        const oneWeekAgoUTC = oneWeekAgo.toUTCString();
-  
-        const postTimestamp = new Date(postDateUTC).getTime();
-        const oneWeekAgoTimestamp = new Date(oneWeekAgoUTC).getTime();
-  
-        return postTimestamp >= oneWeekAgoTimestamp;
-
-      case 'friends':
-        return post.id === 3;
-      case 'popular':
-        return post.likes >= 10
-      default:
-        return true;
-    }
-  });
+  const filteredPosts = filterPosts(posts, filter);
 
   return (
     <div>

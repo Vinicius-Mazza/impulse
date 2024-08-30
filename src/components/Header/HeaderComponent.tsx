@@ -5,18 +5,19 @@ import {
   Button,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { FilterType } from '../../utils/filters'
 
 interface HeaderProps {
-  onFilterChange: (tab: string) => void;
+  onFilterChange: (tab: FilterType) => void;
 }
 
 export const HeaderComponent: React.FC<HeaderProps> = ({ onFilterChange }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   // const textColor = useColorModeValue('gray.800', 'white');
 
-  const [activeTab, setActiveTab] = useState('popular');
+  const [activeTab, setActiveTab] = useState<FilterType>(FilterType.Popular);
 
-  const handleTabClick = (tab: string) => {
+  const handleTabClick = (tab: FilterType) => {
     setActiveTab(tab);
     onFilterChange(tab);
   };
@@ -40,7 +41,7 @@ export const HeaderComponent: React.FC<HeaderProps> = ({ onFilterChange }) => {
           color={activeTab === 'recents' ? '#101010' : '#bababa'}
           _hover={{ color: '#101010' }}
           _active={{ backgroundColor: 'transparent' }}
-          onClick={() => handleTabClick('recents')}
+          onClick={() => handleTabClick(FilterType.Recents)}
         >
           Recentes
         </Button>
@@ -50,7 +51,7 @@ export const HeaderComponent: React.FC<HeaderProps> = ({ onFilterChange }) => {
           color={activeTab === 'friends' ? '#101010' : '#bababa'}
           _hover={{ color: '#101010' }}
           _active={{ backgroundColor: 'transparent' }}
-          onClick={() => handleTabClick('friends')}
+          onClick={() => handleTabClick(FilterType.Friends)}
         >
           Amigos
         </Button>
@@ -60,7 +61,7 @@ export const HeaderComponent: React.FC<HeaderProps> = ({ onFilterChange }) => {
           color={activeTab === 'popular' ? '#101010' : '#bababa'}
           _hover={{ color: '#101010' }}
           _active={{ backgroundColor: 'transparent' }}
-          onClick={() => handleTabClick('popular')}
+          onClick={() => handleTabClick(FilterType.Popular)}
         >
           Popular
         </Button>
