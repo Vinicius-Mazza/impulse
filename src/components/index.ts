@@ -1,2 +1,2 @@
-export * from './HeaderComponent';
+export * from './FeedsHeaderComponent';
 export * from './PostComponent';

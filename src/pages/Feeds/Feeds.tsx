@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { HeaderComponent, PostComponent } from '../../components'
+import { FeedsHeaderComponent, PostComponent } from '../../components'
 import { Post as PostType } from '../../interfaces';
 import { filterPosts, FilterType } from '../../utils/filters'
 
@@ -39,7 +39,7 @@ export const Feeds: React.FC = () => {
 
   return (
     <div>
-      <HeaderComponent onFilterChange={handleFilterChange} />
+      <FeedsHeaderComponent onFilterChange={handleFilterChange} />
       {filteredPosts.map((post) => (
         <PostComponent key={post.id} {...post} />
       ))}

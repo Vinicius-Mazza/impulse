@@ -7,11 +7,11 @@ import {
 } from '@chakra-ui/react';
 import { FilterType } from '../../utils/filters'
 
-interface HeaderProps {
+interface FeedsHeaderProps {
   onFilterChange: (tab: FilterType) => void;
 }
 
-export const HeaderComponent: React.FC<HeaderProps> = ({ onFilterChange }) => {
+export const FeedsHeaderComponent: React.FC<FeedsHeaderProps> = ({ onFilterChange }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   // const textColor = useColorModeValue('gray.800', 'white');
 
