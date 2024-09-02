@@ -15,7 +15,7 @@ export const FeedsHeaderComponent: React.FC<FeedsHeaderProps> = ({ onFilterChang
   const bgColor = useColorModeValue('white', 'gray.800');
   // const textColor = useColorModeValue('gray.800', 'white');
 
-  const [activeTab, setActiveTab] = useState<FilterType>(FilterType.Popular);
+  const [activeTab, setActiveTab] = useState<FilterType>(FilterType.All);
 
   const handleTabClick = (tab: FilterType) => {
     setActiveTab(tab);

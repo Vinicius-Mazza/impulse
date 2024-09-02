@@ -32,7 +32,7 @@ export const Feeds: React.FC = () => {
     }
   ]);
   
-  const [filter, setFilter] = useState<FilterType>(FilterType.Popular);
+  const [filter, setFilter] = useState<FilterType>(FilterType.All);
 
   const handleFilterChange = (tab: FilterType) => setFilter(tab);
   const filteredPosts = filterPosts(posts, filter);
