@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { HeaderComponent, PostComponent } from '../components'
-import { Post as PostType } from '../interfaces';
-import { filterPosts, FilterType } from '../utils/filters'
+import { HeaderComponent, PostComponent } from '../../components'
+import { Post as PostType } from '../../interfaces';
+import { filterPosts, FilterType } from '../../utils/filters'
 
 export const Feeds: React.FC = () => {
   const [posts, setPosts] = useState<PostType[]>([
@@ -26,7 +26,7 @@ export const Feeds: React.FC = () => {
       id: 3,
       user: { name: 'Test', avatar: 'avatar.jpg' },
       content: 'Hello, world! 03',
-      date: new Date("2023-11-22"),
+      date: new Date("2022-11-22"),
       likes: 6,
       comments: [],
     }
@@ -34,9 +34,7 @@ export const Feeds: React.FC = () => {
   
   const [filter, setFilter] = useState<FilterType>(FilterType.Popular);
 
-  const handleFilterChange = (tab: FilterType) => {
-    setFilter(tab);
-  };
+  const handleFilterChange = (tab: FilterType) => setFilter(tab);
   const filteredPosts = filterPosts(posts, filter);
 
   return (

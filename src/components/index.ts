@@ -1,2 +1,2 @@
-export * from './Header';
-export * from './Post';
+export * from './HeaderComponent';
+export * from './PostComponent';
