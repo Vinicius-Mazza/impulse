@@ -1,13 +1,7 @@
-import { Post } from '../../../interfaces';
+import { Post, FilterFunction } from '../../../interfaces';
 import { FilterType } from '../filterTypes';
-import { filterRecents } from './filterRecents';
-import { filterFriends } from './filterFriends';
-import { filterPopular } from './filterPopular';
+import { filterRecents, filterFriends, filterPopular } from '.'
 
-
-interface FilterFunction {
-  (posts: Post[]): Post[];
-}
 
 const filterMap: Map<FilterType, FilterFunction> = new Map([
   [FilterType.Recents, filterRecents],
