@@ -1,1 +1,1 @@
-export * from './useFetchPosts'
+export * from './useFetchData'

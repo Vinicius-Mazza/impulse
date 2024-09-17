@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { Skeleton } from '@chakra-ui/react';
 import { FeedsHeaderComponent, PostComponent, NotificationComponent } from '../../components'
 import { filterPosts, FilterType } from '../../utils/filters'
-import { useFetchPosts } from '../../hooks'
+import { Post } from '../../interfaces'
+import { useFetchData } from '../../hooks'
 
 export const Feeds: React.FC = () => {
-  const { posts, isLoading, error } = useFetchPosts();
+  const urlApiPosts = 'http://localhost:3001/posts'
+  const { data: posts, isLoading, error } = useFetchData<Post[]>(urlApiPosts);
   const [filter, setFilter] = useState<FilterType>(FilterType.All);
   const handleFilterChange = (tab: FilterType) => setFilter(tab);
-  const filteredPosts = filterPosts(posts, filter);
+  const filteredPosts = posts ? filterPosts(posts, filter) : [];
 
   return (
     <div>
