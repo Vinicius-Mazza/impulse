@@ -1,3 +1,4 @@
 export * from './FeedsHeaderComponent';
 export * from './PostComponent';
-export * from './NotificationComponent'
+export * from './NotificationComponent';
+export * from './SidebarComponent';
