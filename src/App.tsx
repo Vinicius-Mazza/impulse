@@ -12,8 +12,8 @@ function App() {
 
   return (
     <Flex>
-      <Box as="aside" w="200px" bg="gray.100">
-      {user && <SidebarComponent {...user}/>}
+      <Box as="aside" w="200px">
+        { user && <SidebarComponent {...user}/> }
       </Box>
       <Box flex="1" paddingLeft="10">
         <Feeds />
