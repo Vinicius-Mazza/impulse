@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { 
   RecommendationsComponent, 
   StoriesComponent, 
@@ -12,7 +12,9 @@ import {
   DrawerContent,
   BoxProps,
   useDisclosure
-} from '@chakra-ui/react';
+} from '@chakra-ui/react'
+import { useFetchData } from '../../hooks'
+import { Story, User } from '../../interfaces'
 
 
 export const ActivityFeedComponent: React.FC = () => {
@@ -51,6 +53,15 @@ interface ActivityFeedProps extends BoxProps {
 }
 
 const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
+    //test
+    const user: User = {
+      id: 1,
+      firstname: 'John',
+      lastname: 'Doe',
+      username: 'johndoe',
+      avatar: 'https://randomuser.me/api/portraits/men/76.jpg',
+    };
+
   return (
     <Box
       bg={useColorModeValue('white', 'gray.900')}
@@ -64,7 +75,7 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" justifyContent="center" mx="8" mb={14} mt={170}>
-        <StoriesComponent />
+        <StoriesComponent id={1} user={user} date={new Date('2024-10-01')} stories={[{"content": "http://localhost:3001/assets/images/storie01.jpg"}]} />
       </Flex>
       <Flex h="20" alignItems="center" justifyContent="right" mx="5" mb={14} mt={60}>
         <SuggestionListComponent />
