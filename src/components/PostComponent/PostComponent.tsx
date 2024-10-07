@@ -1,6 +1,7 @@
 import React from 'react';
 // import { Avatar, Box, Flex, Text, Button, Image } from '@chakra-ui/react';
-import { Avatar, Box, Flex, Text, Button } from '@chakra-ui/react';
+import { Box, Flex, Text, Button } from '@chakra-ui/react';
+import { Avatar } from '../ui/avatar'
 import { Post as PostType } from '../../interfaces';
 
 
@@ -12,7 +13,7 @@ export const PostComponent: React.FC<PostType> = ({ user, content, date, likes, 
 
       <Box p='4'>
         <Flex align='center' mb='4'>
-          <Avatar size='sm' name={userFullname} src={user.avatar} />
+          <Avatar size='lg' name={userFullname} src={user.avatar} />
           <Box ml='2'>
             <Text fontWeight='bold'>{userFullname}</Text>
             <Text fontSize='sm' color='gray.500'>

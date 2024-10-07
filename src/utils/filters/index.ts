@@ -1,2 +1,2 @@
-export * from './filterPosts';
-export * from './filterTypes';
+export * from './filterPosts'
+export * from './filterTypes'

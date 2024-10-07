@@ -1,1 +1,1 @@
-export * from './filterTypes';
+export * from './filterTypes'

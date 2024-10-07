@@ -1,51 +1,38 @@
 import React, { useState } from 'react'
-import { 
-  Flex, 
-  Box,
-  Button, 
-  Image, 
-  Heading, 
-  AvatarGroup,
-  Avatar, 
-  Modal, 
-  ModalOverlay, 
-  ModalContent, 
-  ModalHeader, 
-  ModalCloseButton, 
-  ModalBody, 
-  useDisclosure
-} from '@chakra-ui/react'
+import { Flex, Box, Image, Heading, HStack } from '@chakra-ui/react'
+import { Avatar } from '../ui/avatar'
+import { Button } from "../ui/button"
+import {
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger
+} from "../ui/dialog"
 import { Story } from '../../interfaces'
 
 
 export const StoriesComponent: React.FC<Story> = ({ id, user, date, stories }) => {
   return (
     <Flex direction="column">
-      <Heading as="h3" size="md" mb={5}>Stories</Heading>
-      <Flex mr={-20} gap='0.8rem'>      
+      <Heading as="h2" fontSize="2xl" fontWeight="bold" mb={5}>Stories</Heading>
+      <HStack mr={-10} gap='0.8rem'>
         <StoriesContent id={id} user={user} date={date} stories={stories}/>
         <StoriesContent id={id} user={user} date={date} stories={stories}/>
-      </Flex>
+      </HStack>
     </Flex>
   )
 }
 
 
 const StoriesContent: React.FC<Story> = ({ id, user, date, stories }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
   const [storyData, setStoryData] = useState({ id, user, date, stories })
   
   return (
     <Box w="150px" h="260px">
-      <Image
-        src={stories[0].content}
-        alt='story'
-        borderRadius='2xl'
-        objectFit="cover"
-        w="100%"
-        h="100%"
-        onClick={onOpen}
-      />
+      <DialogStories storyData={storyData} />
       <Box
         position="absolute"
         mt={-8}
@@ -59,42 +46,29 @@ const StoriesContent: React.FC<Story> = ({ id, user, date, stories }) => {
         alignItems="left"
         zIndex={1}
       >
-        <Button colorScheme="white" justifyContent="left" borderRadius="full" height="30px" width="143px">
-          <AvatarGroup spacing='0.1rem' ml={-4}>
-            <Avatar size='xs' src={user.avatar} />
+        <Button bg="white" justifyContent="left" borderRadius="full" height="30px" width="143px">          
+          <HStack ml={-4}>
+            <Avatar size='sm' src={user.avatar} />
             <Heading as='h6' size='xs' color={"black"}>{user.firstname} {user.lastname}</Heading>
-          </AvatarGroup>
+          </HStack>
         </Button>
       </Box>
-      <StoriesModal isOpen={isOpen} onClose={onClose} storyData={storyData} />
     </Box>
   )
 }
 
-interface ModalStoriesProps {
-  onClose: () => void
-  isOpen: boolean
+interface DialogStoriesProps {
   storyData: Story
 }
 
-const StoriesModal = ({ onClose, isOpen, ...rest }: ModalStoriesProps) => {
-  const { storyData } = rest
+const DialogStories = ({ storyData }: DialogStoriesProps) => {
   const userFullName = `${storyData.user.firstname} ${storyData.user.lastname}`
   const userAvatar = storyData.user.avatar
   const stories = storyData.stories[0].content
   
   return (
-  <Modal isOpen={isOpen} onClose={onClose}>
-    <ModalOverlay />
-    <ModalContent>
-      <ModalHeader>
-        <AvatarGroup spacing='0.1rem' ml={-4}>
-          <Avatar src={userAvatar} size='xs' />
-          <Heading as='h6' size='xs' color={"black"}>{userFullName}</Heading>
-        </AvatarGroup>
-      </ModalHeader>
-      <ModalCloseButton />
-      <ModalBody>
+    <DialogRoot>
+      <DialogTrigger asChild>
         <Image
           src={stories}
           alt='story'
@@ -103,8 +77,28 @@ const StoriesModal = ({ onClose, isOpen, ...rest }: ModalStoriesProps) => {
           w="100%"
           h="100%"
         />
-      </ModalBody>
-    </ModalContent>
-  </Modal>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
+            <HStack>
+              <Avatar src={userAvatar} size='sm' />
+              <Heading as='h6' size='xs'>{userFullName}</Heading>
+            </HStack>
+          </DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <Image
+            src={stories}
+            alt='story'
+            borderRadius='2xl'
+            objectFit="cover"
+            w="100%"
+            h="100%"
+          />
+        </DialogBody>
+        <DialogCloseTrigger />
+      </DialogContent>
+    </DialogRoot>
   )
 }

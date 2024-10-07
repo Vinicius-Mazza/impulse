@@ -1,35 +1,40 @@
-import React, { useState } from 'react';
-import { Skeleton, Flex, Box } from '@chakra-ui/react';
+import React, { useState } from 'react'
+import { Flex, Box, HStack, Stack } from '@chakra-ui/react'
 import { 
   FeedsHeaderComponent, 
   PostComponent, 
   NotificationComponent, 
   ActivityFeedComponent
 } from '../../components'
+import {
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText
+} from "../../components/ui/skeleton"
 import { filterPosts, FilterType } from '../../utils/filters'
 import { Post } from '../../interfaces'
 import { useFetchData } from '../../hooks'
 
 export const Feeds: React.FC = () => {
   const urlApiPosts = 'http://localhost:3001/posts'
-  const { data: posts, isLoading, error } = useFetchData<Post[]>(urlApiPosts);
-  const [filter, setFilter] = useState<FilterType>(FilterType.All);
-  const handleFilterChange = (tab: FilterType) => setFilter(tab);
-  const filteredPosts = posts ? filterPosts(posts, filter) : [];
+  const { data: posts, isLoading, error } = useFetchData<Post[]>(urlApiPosts)
+  const [filter, setFilter] = useState<FilterType>(FilterType.All)
+  const handleFilterChange = (tab: FilterType) => setFilter(tab)
+  const filteredPosts = posts ? filterPosts(posts, filter) : []
 
   return (
     <Flex>
-      <Box flex="1" pr="340" mt={6}>
+      <Box flex={0.7} pr="340" mt={6}>
         <FeedsHeaderComponent onFilterChange={handleFilterChange} />
         {isLoading ? (
-          <Skeleton height='20px' />
+          <FeedSkeleton />
         ) : error ? (
           <>
-            <Skeleton height='20px' />
+            <FeedSkeleton />
             <NotificationComponent 
               title="Erro ao carregar dados" 
               description="Ocorreu um erro inesperado." 
-              status="error" 
+              type="error" 
             />
           </>
         ) : (
@@ -42,8 +47,8 @@ export const Feeds: React.FC = () => {
       </Box>
       <Box 
         as="aside"
-        w="200px"
-        bg="gray.100"
+        w="380px"
+
         position="fixed"
         top="0"
         right="0"
@@ -52,5 +57,18 @@ export const Feeds: React.FC = () => {
         <ActivityFeedComponent />
       </Box>
     </Flex>
-  );
-};
+  )
+}
+
+
+const FeedSkeleton : React.FC = () => {
+  return (
+    <Stack gap="6" maxW="xs">
+      <HStack width="full">
+        <SkeletonCircle size="10" />
+        <SkeletonText noOfLines={2} />
+      </HStack>
+      <Skeleton width="869px" height="200px" />
+    </Stack>
+  )
+}

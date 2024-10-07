@@ -1,1 +1,1 @@
-export * from './FeedsHeaderComponent';
+export * from './FeedsHeaderComponent'

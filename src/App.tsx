@@ -1,14 +1,14 @@
-import React from 'react';
+import React from 'react'
 import { Feeds } from './pages'
 import { SidebarComponent } from './components'
-import { Box, Flex } from '@chakra-ui/react';
-import { useFetchData } from './hooks';
-import { User } from './interfaces';
+import { Box, Flex } from '@chakra-ui/react'
+import { useFetchData } from './hooks'
+import { User } from './interfaces'
 
 function App() {
   const urlApiUser = 'http://localhost:3001/users'
-  const { data: users } = useFetchData<User[]>(urlApiUser, undefined, 'id=1');
-  const user = users?.[0];
+  const { data: users } = useFetchData<User[]>(urlApiUser, undefined, 'id=1')
+  const user = users?.[0]
 
   return (
     <Flex>
@@ -19,7 +19,7 @@ function App() {
         <Feeds />
       </Box>
     </Flex>
-  );
+  )
 }
 
-export default App;
+export default App

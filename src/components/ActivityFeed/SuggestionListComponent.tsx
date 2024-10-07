@@ -1,10 +1,10 @@
-import React from 'react';
-import { Flex, Heading } from '@chakra-ui/react';
+import React from 'react'
+import { Flex, Heading } from '@chakra-ui/react'
 
 export const SuggestionListComponent: React.FC = () => {
   return (
     <Flex direction="column">
-      <Heading as="h3" size="md">Sugestões</Heading>
+      <Heading as="h2" fontSize="2xl" fontWeight="bold">Sugestões</Heading>
     </Flex>
   )
 }

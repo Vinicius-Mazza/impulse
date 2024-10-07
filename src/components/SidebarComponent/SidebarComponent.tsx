@@ -3,24 +3,22 @@ import {
   Box,
   Flex,
   Icon,
-  useColorModeValue,
   Text,
-  Drawer,
-  DrawerContent,
   useDisclosure,
   BoxProps,
   FlexProps,
-  Avatar,
-  Heading,
+  Heading
 } from '@chakra-ui/react'
 // import { FiMenu } from 'react-icons/fi'
-import { FaUserGroup, FaCompass } from "react-icons/fa6";
-import { HiChatBubbleLeftRight } from "react-icons/hi2";
-import { FaImage } from "react-icons/fa";
-import { IoSettings, IoMail } from "react-icons/io5";
-
+import { FaUserGroup, FaCompass } from "react-icons/fa6"
+import { HiChatBubbleLeftRight } from "react-icons/hi2"
+import { FaImage } from "react-icons/fa"
+import { IoSettings, IoMail } from "react-icons/io5"
 import { IconType } from 'react-icons'
-import { User as UserType } from '../../interfaces';
+import { User as UserType } from '../../interfaces'
+import { DrawerContent, DrawerRoot } from "../ui/drawer"
+import { Avatar } from '../ui/avatar'
+
 
 interface LinkItemProps {
   name: string
@@ -33,41 +31,37 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Forums', icon: HiChatBubbleLeftRight },
   { name: 'Friends', icon: FaUserGroup },
   { name: 'Media', icon: FaImage },
-  { name: 'Settings', icon: IoSettings },
+  { name: 'Settings', icon: IoSettings }
 ]
 
 
 export const SidebarComponent: React.FC<UserType> = ({ id, firstname, lastname, username, avatar }: UserType) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [userData, setUserData] = useState({ id, firstname, lastname, username, avatar });
+  const { open, onOpen, onClose } = useDisclosure()
+  const [userData, setUserData] = useState({ id, firstname, lastname, username, avatar })
+  
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
-      <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} userData={userData} />
-      <Drawer
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full">
+    <Box minH="100vh" >
+      <SidebarContent 
+        onClose={() => onClose} display={{ base: 'none', md: 'block' }} 
+        userData={userData} 
+      />
+      <DrawerRoot open={open} placement={"end"} size={"full"} >
         <DrawerContent>
           <SidebarContent onClose={onClose} userData={userData} />
         </DrawerContent>
-      </Drawer>
-
+      </DrawerRoot>
       {/* mobilenav
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
         Content
       </Box> */}
-
     </Box>
   )
 }
 
 interface SidebarProps extends BoxProps {
   onClose: () => void
-  userData: UserType;
+  userData: UserType
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
@@ -77,22 +71,27 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 
   return (
     <Box
-      bg={useColorModeValue('white', 'gray.900')}
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
       w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
       minH="calc(100vh - 20px)" 
-      {...otherProps}>
-      
-      <Flex h="20" alignItems="center" justifyContent="center" mx="8" mb={14} mt={70}>
+      {...otherProps}
+    >
+      <Flex 
+        h="20" 
+        alignItems="center" 
+        justifyContent="center" 
+        mx="8" 
+        mb={28} 
+        mt={20}
+      >
         <Flex direction="column" alignItems="center">
-          <Avatar size='xl' name={fullName} src={avatar} mb={5} />
+          <Avatar size='2xl' name={fullName} src={avatar} mb={5} />
           <Heading as="h3" size="md">{fullName}</Heading>
           <Text fontSize="sm" color="gray.500">{username}</Text>
         </Flex>
       </Flex>
-      
+
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon}>
           {link.name}
@@ -111,7 +110,6 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
   return (
     <Box
       as="a"
-      href="#"
       style={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
     >
@@ -121,14 +119,12 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
         mx="4"
         borderRadius="lg"
         mb={3}
-
         role="group"
         cursor="pointer" 
-
-        _hover={{ // Update hover styles here
-          bg: '#101010', // Change hover background color to #101010
-          color: 'white', // Change hover text color to white
-          borderRadius: '20px',
+        _hover={{
+          bg: { base: "black", _dark: "white" },
+          color: { base: "white", _dark: "black" },
+          borderRadius: '20px'
         }}
         {...rest}
       >
@@ -136,8 +132,8 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
           <Icon
             mr="4"
             fontSize="16"
-            _groupHover={{ // Update hover styles for icon
-              color: 'white', // Change hover color to white
+            _groupHover={{ 
+              color: 'white'
             }}
             as={icon}
           />
@@ -145,7 +141,7 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
         {children}
       </Flex>
     </Box>
-  );
+  )
 }
 
 // interface MobileProps extends FlexProps {

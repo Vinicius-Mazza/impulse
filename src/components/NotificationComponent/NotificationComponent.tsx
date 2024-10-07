@@ -1,33 +1,28 @@
-import React from 'react';
-import { ToastPosition, useToast } from '@chakra-ui/react';
+import React from 'react'
+import { Toaster, toaster } from "../ui/toaster"
+
 
 interface NotificationProps {
-  title: string;
-  description: string;
-  status?: 'success' | 'error' | 'warning' | 'info' | "loading";
-  duration?: number;
-  isClosable?: boolean;
-  position?: ToastPosition
+  title: string
+  description: string
+  type?: 'success' | 'error' | 'warning' | 'info' | "loading"
+  duration?: number,
+  // position?: string
 }
 
 export const NotificationComponent: React.FC<NotificationProps> = ({
   title,
   description,
-  status = 'info',
+  type = 'info',
   duration = 5000,
-  isClosable = true,
-  position = 'top-right'
+  // position = 'top-right'
 }) => {
-  const toast = useToast();
-
-  toast({
+  toaster.create({
     title,
     description,
-    status,
+    type,
     duration,
-    isClosable,
-    position,
-  });
-
-  return null; // O componente não renderiza nada na tela
-};
+    // position
+  })
+  return <Toaster />
+}
