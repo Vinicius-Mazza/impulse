@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Flex, Box, Image, Heading, HStack } from '@chakra-ui/react'
+import React from 'react'
+import { Box, Image, Heading, HStack } from '@chakra-ui/react'
 import { Avatar } from '../ui/avatar'
-import { Button } from "../ui/button"
+import { Button } from '../ui/button'
 import {
   DialogBody,
   DialogCloseTrigger,
@@ -10,29 +10,25 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger
-} from "../ui/dialog"
+} from '../ui/dialog'
 import { Story } from '../../interfaces'
 
 
 export const StoriesComponent: React.FC<Story> = ({ id, user, date, stories }) => {
-  return (
-    <Flex direction="column">
-      <Heading as="h2" fontSize="2xl" fontWeight="bold" mb={5}>Stories</Heading>
-      <HStack mr={-10} gap='0.8rem'>
-        <StoriesContent id={id} user={user} date={date} stories={stories}/>
-        <StoriesContent id={id} user={user} date={date} stories={stories}/>
-      </HStack>
-    </Flex>
+  return (    
+    <HStack mr={-10}>
+      <StoriesContent id={id} user={user} date={date} stories={stories}/>
+    </HStack>
+    
   )
 }
 
-
 const StoriesContent: React.FC<Story> = ({ id, user, date, stories }) => {
-  const [storyData, setStoryData] = useState({ id, user, date, stories })
-  
+  const userFullName = `${user.firstname} ${user.lastname}`
+
   return (
     <Box w="150px" h="260px">
-      <DialogStories storyData={storyData} />
+      <DialogStories id={id} user={user} date={date} stories={stories} />
       <Box
         position="absolute"
         mt={-8}
@@ -48,8 +44,8 @@ const StoriesContent: React.FC<Story> = ({ id, user, date, stories }) => {
       >
         <Button bg="white" justifyContent="left" borderRadius="full" height="30px" width="143px">          
           <HStack ml={-4}>
-            <Avatar size='sm' src={user.avatar} />
-            <Heading as='h6' size='xs' color={"black"}>{user.firstname} {user.lastname}</Heading>
+            <Avatar size='sm' name={userFullName} src={user.avatar} />
+            <Heading as='h6' size='xs' color={"black"}>{userFullName}</Heading>
           </HStack>
         </Button>
       </Box>
@@ -57,20 +53,15 @@ const StoriesContent: React.FC<Story> = ({ id, user, date, stories }) => {
   )
 }
 
-interface DialogStoriesProps {
-  storyData: Story
-}
-
-const DialogStories = ({ storyData }: DialogStoriesProps) => {
-  const userFullName = `${storyData.user.firstname} ${storyData.user.lastname}`
-  const userAvatar = storyData.user.avatar
-  const stories = storyData.stories[0].content
+const DialogStories: React.FC<Story> = ({ id, user, date, stories }) => {
+  const userFullName = `${user.firstname} ${user.lastname}`
+  const userAvatar = user.avatar
   
   return (
     <DialogRoot>
       <DialogTrigger asChild>
         <Image
-          src={stories}
+          src={stories[0].content}
           alt='story'
           borderRadius='2xl'
           objectFit="cover"
@@ -82,14 +73,14 @@ const DialogStories = ({ storyData }: DialogStoriesProps) => {
         <DialogHeader>
           <DialogTitle>
             <HStack>
-              <Avatar src={userAvatar} size='sm' />
+              <Avatar name={userFullName} src={userAvatar} size='sm' />
               <Heading as='h6' size='xs'>{userFullName}</Heading>
             </HStack>
           </DialogTitle>
         </DialogHeader>
         <DialogBody>
           <Image
-            src={stories}
+            src={stories[0].content}
             alt='story'
             borderRadius='2xl'
             objectFit="cover"

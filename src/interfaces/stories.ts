@@ -1,7 +1,7 @@
 import { User } from '.'
 
-interface StoryItem {
-  content: string;
+export interface StoryItem {
+  content: string
 }
 
 export interface Story {
@@ -9,4 +9,4 @@ export interface Story {
   user: User
   date: Date
   stories: StoryItem[]
-}
+} 
