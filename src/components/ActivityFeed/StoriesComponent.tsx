@@ -19,7 +19,6 @@ export const StoriesComponent: React.FC<Story> = ({ id, user, date, stories }) =
     <HStack mr={-10}>
       <StoriesContent id={id} user={user} date={date} stories={stories}/>
     </HStack>
-    
   )
 }
 
@@ -42,10 +41,18 @@ const StoriesContent: React.FC<Story> = ({ id, user, date, stories }) => {
         alignItems="left"
         zIndex={1}
       >
-        <Button bg="white" justifyContent="left" borderRadius="full" height="30px" width="143px">          
+        <Button 
+          bg="white" 
+          justifyContent="left" 
+          borderRadius="full" 
+          height="30px" 
+          width="143px"
+        >          
           <HStack ml={-4}>
             <Avatar size='sm' name={userFullName} src={user.avatar} />
-            <Heading as='h6' size='xs' color={"black"}>{userFullName}</Heading>
+            <Heading fontWeight='bold' as='h6' size='xs' color={"black"}>
+              {userFullName}
+            </Heading>
           </HStack>
         </Button>
       </Box>

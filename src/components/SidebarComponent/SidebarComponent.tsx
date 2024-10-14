@@ -87,7 +87,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       >
         <Flex direction="column" alignItems="center">
           <Avatar size='2xl' name={fullName} src={avatar} mb={1} />
-          <Heading as="h3" size="md">{fullName}</Heading>
+          <Heading as="h3" fontWeight='bold' size="md">{fullName}</Heading>
           <Text fontSize="sm" color="gray.500">{username}</Text>
         </Flex>
       </Flex>

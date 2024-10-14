@@ -48,7 +48,6 @@ export const Feeds: React.FC = () => {
       <Box 
         as="aside"
         w="380px"
-
         position="fixed"
         top="0"
         right="0"
@@ -59,7 +58,6 @@ export const Feeds: React.FC = () => {
     </Flex>
   )
 }
-
 
 const FeedSkeleton : React.FC = () => {
   return (

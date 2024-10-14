@@ -27,7 +27,7 @@ export const FeedsHeaderComponent: React.FC<FeedsHeaderProps> = ({ onFilterChang
         alignItems="center"
         padding="4"
       >
-        <Heading as="h2" fontSize="2xl" fontWeight="bold">
+        <Heading as="h2" fontSize="2xl" fontWeight="extrabold">
           Feeds
         </Heading>
         <Flex>
@@ -94,5 +94,5 @@ const TabButton: React.FC<TabButtonProps> = ({
     >
       {children}
     </Button>
-  );
-};
+  )
+}

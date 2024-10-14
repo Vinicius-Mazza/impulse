@@ -12,14 +12,16 @@ import {
   useDisclosure, 
   Heading 
 } from '@chakra-ui/react'
-import { DrawerContent, DrawerRoot } from "../ui/drawer"
+import { DrawerContent, DrawerRoot } from '../ui/drawer'
 import { useFetchData } from '../../hooks'
-import { Story } from '../../interfaces'
+import { Story, User } from '../../interfaces'
 import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot
 } from '../ui/pagination'
+import { Button } from '../ui/button'
+
 
 export const ActivityFeedComponent: React.FC = () => {
   const { open, onOpen, onClose } = useDisclosure()
@@ -43,22 +45,32 @@ export const ActivityFeedComponent: React.FC = () => {
         </DrawerContent>
       </DrawerRoot>
     </Box>
-  );
-};
+  )
+}
 
 interface ActivityFeedProps extends BoxProps {
   onClose: () => void
 }
 
 const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
-    const urlApiStories = 'http://localhost:3001/stories'
-    const { data: stories } = useFetchData<Story[]>(urlApiStories)
-    const [page, setPage] = useState(1)
-    const pageSize = 2
-    const count = (stories || []).length
-    const startRange = (page - 1) * pageSize
-    const endRange = startRange + pageSize
-    const visibleItems = (stories || []).slice(startRange, endRange)
+  const urlApiUsers = 'http://localhost:3001/users'
+  const { data: users } = useFetchData<User[]>(urlApiUsers)
+  const urlApiStories = 'http://localhost:3001/stories'
+  const { data: stories } = useFetchData<Story[]>(urlApiStories)
+  const [page, setPage] = useState(1)
+  const pageSize = 2
+  const count = (stories || []).length
+  const startRange = (page - 1) * pageSize
+  const endRange = startRange + pageSize
+  const visibleItems = (stories || []).slice(startRange, endRange)
+
+  function shuffleArray<T>(array: T[]): T[] {
+    return array.sort(() => Math.random() - 0.5)
+  }
+
+  const userSuggestion = users && users.length >= 3
+    ? shuffleArray(users).slice(0, 3)
+    : []
 
   return (
     <Box
@@ -75,7 +87,7 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
         <Heading 
           as="h2" 
           fontSize="2xl" 
-          fontWeight="bold" 
+          fontWeight="extrabold" 
           mb={5}
         >
           Stories
@@ -95,8 +107,11 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
               <PaginationPrevTrigger 
                 marginLeft="62px" 
                 mt={28} 
-                borderRadius="20px" 
-                _hover={{ backgroundColor: 'transparent' }} 
+                color={{ base: '#bababa', _dark: '#8f8f8f' }}
+                _hover={{ 
+                    backgroundColor: 'transparent', 
+                    color: { base: '#101010', _dark: 'white' } 
+                  }} 
               />
             </Show>
             <Show when={page === 1}>
@@ -111,12 +126,15 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
               <PaginationNextTrigger 
                 marginLeft="40px" 
                 mt={28} 
-                borderRadius="20px" 
-                _hover={{ backgroundColor: 'transparent' }} 
+                color={{ base: '#bababa', _dark: '#8f8f8f' }}
+                _hover={{ 
+                  backgroundColor: 'transparent', 
+                  color: { base: '#101010', _dark: 'white' } 
+                }}
               />
             </Show>
             <Show when={page === Math.ceil(count / pageSize)}>
-              <Box marginLeft="73px"></Box>
+              <Box marginLeft="72px"></Box>
             </Show>
             <Show 
               when={
@@ -132,19 +150,37 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
       </Flex>
 
       <Flex 
-        h="10" 
-        alignItems="center" 
-        justifyContent="right" 
-        mx="5" 
-        mb={10} 
-        mt={10}
+        h="10"
+        w='30px' 
+        alignItems="flex-start" 
+        justifyContent="space-between" 
+        ml='-102px' 
+        mt='20px'
       >
-        <SuggestionListComponent />
+        <Flex direction="column">
+          <Heading as="h2" fontSize="2xl" fontWeight='extrabold' mb={5} mr={20}>
+            Sugestões
+          </Heading>
+          {userSuggestion.map((user, index) => (
+            <SuggestionListComponent key={index} {...user} />
+          ))}
+          <Button              
+            width='20%'
+            height='50%'
+            variant="plain"
+            fontSize="sm"
+            color={ 
+              { base: '#bababa', _dark: '#8f8f8f' }
+            }
+            _hover={{ color: { base: '#101010', _dark: 'white' } }}
+          >
+            Ver todos
+          </Button>
+        </Flex>
       </Flex>
-
-      <Flex h="20" alignItems="center" justifyContent="center" mx="1">
+      {/* <Flex h="20" alignItems="center" justifyContent="center" mx="1">
         <RecommendationsComponent />
-      </Flex>
+      </Flex> */}
     </Box>
   )
 }
