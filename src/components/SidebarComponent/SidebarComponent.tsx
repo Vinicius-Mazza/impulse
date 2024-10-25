@@ -45,7 +45,7 @@ export const SidebarComponent: React.FC<UserType> = ({ id, firstname, lastname, 
         onClose={() => onClose} display={{ base: 'none', md: 'block' }} 
         userData={userData} 
       />
-      <DrawerRoot open={open} placement={"end"} size={"full"} >
+      <DrawerRoot open={open} placement="end" size="full" >
         <DrawerContent>
           <SidebarContent onClose={onClose} userData={userData} />
         </DrawerContent>
@@ -88,7 +88,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <Flex direction="column" alignItems="center">
           <Avatar size='2xl' name={fullName} src={avatar} mb={1} />
           <Heading as="h3" fontWeight='bold' size="md">{fullName}</Heading>
-          <Text fontSize="sm" color="gray.500">{username}</Text>
+          <Text fontSize="sm" color="gray.500">@{username}</Text>
         </Flex>
       </Flex>
 
