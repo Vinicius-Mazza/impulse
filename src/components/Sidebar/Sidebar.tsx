@@ -35,7 +35,7 @@ const LinkItems: Array<LinkItemProps> = [
 ]
 
 
-export const SidebarComponent: React.FC<UserType> = ({ id, firstname, lastname, username, avatar }: UserType) => {
+export const Sidebar: React.FC<UserType> = ({ id, firstname, lastname, username, avatar }: UserType) => {
   const { open, onOpen, onClose } = useDisclosure()
   const [userData, setUserData] = useState({ id, firstname, lastname, username, avatar })
   

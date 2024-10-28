@@ -14,7 +14,7 @@ import {
 import { Story } from '../../interfaces'
 
 
-export const StoriesComponent: React.FC<Story> = ({ id, user, date, stories }) => {
+export const Stories: React.FC<Story> = ({ id, user, date, stories }) => {
   return (    
     <HStack mr={-10}>
       <StoriesContent id={id} user={user} date={date} stories={stories}/>

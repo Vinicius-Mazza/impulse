@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Flex, Box, HStack, Stack } from '@chakra-ui/react'
 import { 
-  FeedsHeaderComponent, 
-  PostComponent, 
-  NotificationComponent, 
-  ActivityFeedComponent
+  FeedsHeaderSection, 
+  UserPost, 
+  Notification, 
+  ActivityFeed
 } from '../../components'
 import {
   Skeleton,
@@ -14,6 +14,7 @@ import {
 import { filterPosts, FilterType } from '../../utils/filters'
 import { Post } from '../../interfaces'
 import { useFetchData } from '../../hooks'
+
 
 export const Feeds: React.FC = () => {
   const urlApiPosts = 'http://localhost:3001/posts'
@@ -25,13 +26,13 @@ export const Feeds: React.FC = () => {
   return (
     <Flex>
       <Box flex={0.7} pr="340" mt={6}>
-        <FeedsHeaderComponent onFilterChange={handleFilterChange} />
+        <FeedsHeaderSection onFilterChange={handleFilterChange} />
         {isLoading ? (
           <FeedSkeleton />
         ) : error ? (
           <>
             <FeedSkeleton />
-            <NotificationComponent 
+            <Notification 
               title="Erro ao carregar dados" 
               description="Ocorreu um erro inesperado." 
               type="error" 
@@ -40,7 +41,7 @@ export const Feeds: React.FC = () => {
         ) : (
           <div>
             {filteredPosts.map((post) => (
-              <PostComponent key={post.id} {...post} />
+              <UserPost key={post.id} {...post} />
             ))}
           </div>
         )}
@@ -53,7 +54,7 @@ export const Feeds: React.FC = () => {
         right="0"
         height="100vh"
       >
-        <ActivityFeedComponent />
+        <ActivityFeed />
       </Box>
     </Flex>
   )

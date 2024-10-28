@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import { User } from '../../interfaces'
 
 
-export const SuggestionListComponent: React.FC<User> = ({ id, firstname, lastname, username, avatar }) => {
+export const SuggestionList: React.FC<User> = ({ id, firstname, lastname, username, avatar }) => {
   const userFullName = `${firstname} ${lastname}`
   
   return (

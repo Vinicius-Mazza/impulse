@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react'
+import React, { useState, useRef, Fragment } from 'react'
 import { 
   Box, 
   Flex, 
@@ -12,7 +12,10 @@ import {
 } from '@chakra-ui/react'
 import TruncateMarkup from 'react-truncate-markup'
 import { MediaPlayer, MediaProvider } from '@vidstack/react'
-import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/layouts/default'
+import { 
+  defaultLayoutIcons, 
+  DefaultVideoLayout 
+} from '@vidstack/react/player/layouts/default'
 import {
   HoverCardArrow,
   HoverCardContent,
@@ -27,7 +30,7 @@ import '@vidstack/react/player/styles/default/theme.css'
 import '@vidstack/react/player/styles/default/layouts/video.css'
 
 
-export const PostComponent: React.FC<PostType> = (post) => {
+export const UserPost: React.FC<PostType> = (post) => {
   const userFullname = `${post.user.firstname} ${post.user.lastname}`
   
   return (

@@ -10,7 +10,7 @@ interface NotificationProps {
   // position?: string
 }
 
-export const NotificationComponent: React.FC<NotificationProps> = ({
+export const Notification: React.FC<NotificationProps> = ({
   title,
   description,
   type = 'info',

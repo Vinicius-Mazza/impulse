@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { 
-  // RecommendationsComponent, 
-  StoriesComponent, 
-  SuggestionListComponent 
+  // Recommendations, 
+  Stories, 
+  SuggestionList 
 } from '.'
 import { 
   Box, 
@@ -23,7 +23,7 @@ import {
 import { Button } from '../ui/button'
 
 
-export const ActivityFeedComponent: React.FC = () => {
+export const ActivityFeed: React.FC = () => {
   const { open, onOpen, onClose } = useDisclosure()
 
   return (
@@ -119,7 +119,7 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
             </Show>
             <Flex gap='3rem'>
               {visibleItems.map((story, index) => (
-                <StoriesComponent key={index} {...story} />
+                <Stories key={index} {...story} />
               ))}
             </Flex>
             <Show when={page < Math.ceil(count / pageSize)}>
@@ -162,7 +162,7 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
             Sugestões
           </Heading>
           {userSuggestion.map((user, index) => (
-            <SuggestionListComponent key={index} {...user} />
+            <SuggestionList key={index} {...user} />
           ))}
           <Button              
             width='20%'
@@ -179,7 +179,7 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
         </Flex>
       </Flex>
       {/* <Flex h="20" alignItems="center" justifyContent="center" mx="1">
-        <RecommendationsComponent />
+        <Recommendations />
       </Flex> */}
     </Box>
   )

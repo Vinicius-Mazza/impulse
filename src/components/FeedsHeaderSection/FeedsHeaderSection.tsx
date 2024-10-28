@@ -8,7 +8,7 @@ interface FeedsHeaderProps {
   onFilterChange: (tab: FilterType) => void
 }
 
-export const FeedsHeaderComponent: React.FC<FeedsHeaderProps> = ({ onFilterChange }) => {
+export const FeedsHeaderSection: React.FC<FeedsHeaderProps> = ({ onFilterChange }) => {
   const [activeTab, setActiveTab] = useState<FilterType>(FilterType.All)
 
   return (
