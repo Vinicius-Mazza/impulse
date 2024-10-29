@@ -7,8 +7,7 @@ import {
   Show, 
   Heading, 
   HStack, 
-  Link, 
-  Stack
+  Link
 } from '@chakra-ui/react'
 import TruncateMarkup from 'react-truncate-markup'
 import { MediaPlayer, MediaProvider } from '@vidstack/react'
@@ -16,16 +15,11 @@ import {
   defaultLayoutIcons, 
   DefaultVideoLayout 
 } from '@vidstack/react/player/layouts/default'
-import {
-  HoverCardArrow,
-  HoverCardContent,
-  HoverCardRoot,
-  HoverCardTrigger
-} from '../ui/hover-card'
 import { Avatar } from '../ui/avatar'
 import { Button } from '../ui/button'
 import { useFetchData } from '../../hooks'
 import { Post as PostType, FullContent, User } from '../../interfaces'
+import { HoverCardUser } from '../HoverCardUser'
 import '@vidstack/react/player/styles/default/theme.css'
 import '@vidstack/react/player/styles/default/layouts/video.css'
 
@@ -40,7 +34,7 @@ export const UserPost: React.FC<PostType> = (post) => {
         <Flex align='center' mb='4' gap={3.5}>
           <Avatar size='lg' name={userFullname} src={post.user.avatar} />
           <Box>
-            <Text fontWeight='bold'>{userFullname}</Text>
+            <HoverCardUser user={post.user} />
             <Text fontSize='sm' color='gray.500'>
               {new String(post.date)}
             </Text>
@@ -116,7 +110,7 @@ const TextContent: React.FC<{text: string}> = ({ text }) => {
                 name={`${user?.firstname ?? ''} ${user?.lastname ?? ''}`}
                 src={user?.avatar ?? ''} 
               />
-              {user && <HoverCardUser user={user} />}
+              &nbsp;{user && <HoverCardUser user={user} hoverTrigger='mention'/>}
             </>
           </Show>
         </TruncateMarkup.Atom>
@@ -232,47 +226,6 @@ const TextContent: React.FC<{text: string}> = ({ text }) => {
         </TruncateMarkup>
       </Show>
     </div>
-  )
-}
-
-const HoverCardUser: React.FC<{user: User}> = ({ user }) => {
-  const [open, setOpen] = useState(false)
-  const userFullname = `${user.firstname} ${user.lastname}`
-
-  return (
-    <HoverCardRoot 
-      size="sm" 
-      open={open} 
-      onOpenChange={(e) => setOpen(e.open)} 
-      closeDelay={100}
-    >
-      <HoverCardTrigger>
-        <Link variant="underline" colorPalette="blue" href="#">
-          {user.firstname}
-        </Link>
-      </HoverCardTrigger>
-      <HoverCardContent>
-        <HoverCardArrow />
-        <Stack gap="4" direction="row">
-          <Avatar
-            size="2xl"
-            name={userFullname}
-            src={user.avatar}
-          />
-          <Stack gap="3">
-            <Stack gap="1">
-              <Text textStyle="lg" fontWeight="semibold">
-                {userFullname}
-              </Text>
-              <Text textStyle="sm" color="fg.subtle">
-                {user.bio}
-              </Text>
-            </Stack>
-            <Button width="100px" size='md'>Adicionar</Button>
-          </Stack>
-        </Stack>
-      </HoverCardContent>
-    </HoverCardRoot>
   )
 }
 
