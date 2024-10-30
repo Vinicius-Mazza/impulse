@@ -13,7 +13,10 @@ const filterMap: Map<FilterType, FilterFunction> = new Map([
   [FilterType.Popular, filterPopular]
 ])
 
-export const filterPosts = (posts: Post[], filterType: FilterType): Post[] => {
+export const filterPosts = 
+  (posts: Post[], filterType: FilterType): Post[] | null => {
   const filterFunction = filterMap.get(filterType)
-  return filterFunction ? filterFunction(posts) : posts
+  const filteredPosts = filterFunction ? filterFunction(posts) : posts
+
+  return filteredPosts.length > 0 ? filteredPosts : null
 }

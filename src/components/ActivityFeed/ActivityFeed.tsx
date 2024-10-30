@@ -4,6 +4,7 @@ import {
   Stories, 
   SuggestionList 
 } from '.'
+import { CustomEmptyState } from '../CustomEmptyState'
 import { 
   Box, 
   Flex, 
@@ -21,6 +22,7 @@ import {
   PaginationRoot
 } from '../ui/pagination'
 import { Button } from '../ui/button'
+import { FaCamera } from 'react-icons/fa'
 
 
 export const ActivityFeed: React.FC = () => {
@@ -117,11 +119,22 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
             <Show when={page === 1}>
               <Box marginLeft="94px"></Box>
             </Show>
-            <Flex gap='3rem'>
-              {visibleItems.map((story, index) => (
-                <Stories key={index} {...story} />
-              ))}
-            </Flex>
+              <Show when={stories?.length !== 0} fallback={
+                <Flex minW='200px' maxW='300px'>        
+                  <CustomEmptyState
+                    icon={<FaCamera />}
+                    title='Ainda não há stories por aqui.'
+                    description='Seja o primeiro a compartilhar!'
+                    size='md'
+                  />
+                </Flex>
+              }>
+                <Flex gap='3rem'>
+                  {visibleItems.map((story, index) => (
+                    <Stories key={index} {...story} />
+                  ))}
+                </Flex>
+              </Show>
             <Show when={page < Math.ceil(count / pageSize)}>
               <PaginationNextTrigger 
                 marginLeft="40px" 

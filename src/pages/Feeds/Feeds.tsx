@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import { Flex, Box, HStack, Stack } from '@chakra-ui/react'
+import { Flex, Box, HStack, Stack, Show } from '@chakra-ui/react'
 import { 
   FeedsHeaderSection, 
   UserPost, 
   Notification, 
-  ActivityFeed
+  ActivityFeed,
+  FeedEmptyState
 } from '../../components'
 import {
   Skeleton,
   SkeletonCircle,
   SkeletonText
-} from "../../components/ui/skeleton"
+} from '../../components/ui/skeleton'
 import { filterPosts, FilterType } from '../../utils/filters'
 import { Post } from '../../interfaces'
 import { useFetchData } from '../../hooks'
@@ -21,7 +22,8 @@ export const Feeds: React.FC = () => {
   const { data: posts, isLoading, error } = useFetchData<Post[]>(urlApiPosts)
   const [filter, setFilter] = useState<FilterType>(FilterType.All)
   const handleFilterChange = (tab: FilterType) => setFilter(tab)
-  const filteredPosts = posts ? filterPosts(posts, filter) : []
+  const filteredPosts: Post[] | null = posts ? filterPosts(posts, filter) : []
+  const displayPosts = filteredPosts ?? []
 
   return (
     <Flex>
@@ -40,9 +42,13 @@ export const Feeds: React.FC = () => {
           </>
         ) : (
           <div>
-            {filteredPosts.map((post) => (
-              <UserPost key={post.id} {...post} />
-            ))}
+            <Show when={displayPosts.length !== 0} fallback={
+              <FeedEmptyState filterType={filter} />
+            }>
+              {displayPosts.map((post) => (
+                <UserPost key={post.id} {...post} />
+              ))}
+            </Show>
           </div>
         )}
       </Box>
