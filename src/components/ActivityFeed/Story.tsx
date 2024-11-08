@@ -11,23 +11,33 @@ import {
   DialogTitle,
   DialogTrigger
 } from '../ui/dialog'
-import { Story } from '../../interfaces'
+import { Story as StoryType } from '../../interfaces'
 
 
-export const Stories: React.FC<Story> = ({ id, user, date, stories }) => {
+export const Story: React.FC<StoryType> = (storyData) => {
   return (    
     <HStack mr={-10}>
-      <StoriesContent id={id} user={user} date={date} stories={stories}/>
+      <StoriesContent 
+        id={storyData.id} 
+        user={storyData.user} 
+        date={storyData.date} 
+        stories={storyData.stories}
+      />
     </HStack>
   )
 }
 
-const StoriesContent: React.FC<Story> = ({ id, user, date, stories }) => {
-  const userFullName = `${user.firstname} ${user.lastname}`
+const StoriesContent: React.FC<StoryType> = (storyData) => {
+  const userFullName = `${storyData.user.firstname} ${storyData.user.lastname}`
 
   return (
     <Box w="150px" h="260px">
-      <DialogStories id={id} user={user} date={date} stories={stories} />
+      <DialogStories 
+        id={storyData.id} 
+        user={storyData.user} 
+        date={storyData.date} 
+        stories={storyData.stories} 
+      />
       <Box
         position="absolute"
         mt={-8}
@@ -49,7 +59,7 @@ const StoriesContent: React.FC<Story> = ({ id, user, date, stories }) => {
           width="143px"
         >          
           <HStack ml={-4}>
-            <Avatar size='sm' name={userFullName} src={user.avatar} />
+            <Avatar size='sm' name={userFullName} src={storyData.user.avatar} />
             <Heading fontWeight='bold' as='h6' size='xs' color={"black"}>
               {userFullName}
             </Heading>
@@ -60,15 +70,15 @@ const StoriesContent: React.FC<Story> = ({ id, user, date, stories }) => {
   )
 }
 
-const DialogStories: React.FC<Story> = ({ id, user, date, stories }) => {
-  const userFullName = `${user.firstname} ${user.lastname}`
-  const userAvatar = user.avatar
+const DialogStories: React.FC<StoryType> = (storyData) => {
+  const userFullName = `${storyData.user.firstname} ${storyData.user.lastname}`
+  const userAvatar = storyData.user.avatar
   
   return (
     <DialogRoot>
       <DialogTrigger asChild>
         <Image
-          src={stories[0].content}
+          src={storyData.stories[0].content}
           alt='story'
           borderRadius='2xl'
           objectFit="cover"
@@ -87,7 +97,7 @@ const DialogStories: React.FC<Story> = ({ id, user, date, stories }) => {
         </DialogHeader>
         <DialogBody>
           <Image
-            src={stories[0].content}
+            src={storyData.stories[0].content}
             alt='story'
             borderRadius='2xl'
             objectFit="cover"

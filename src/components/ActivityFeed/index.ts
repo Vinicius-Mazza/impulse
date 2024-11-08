@@ -1,4 +1,4 @@
 export * from './ActivityFeed'
 export * from './Recommendations'
-export * from './Stories'
+export * from './Story'
 export * from './SuggestionList'

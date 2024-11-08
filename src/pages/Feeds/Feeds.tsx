@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { Flex, Box, HStack, Stack, Show } from '@chakra-ui/react'
+import { Flex, Box, HStack, Stack, Show, Container } from '@chakra-ui/react'
 import { 
   FeedsHeaderSection, 
   UserPost, 
   Notification, 
   ActivityFeed,
-  FeedEmptyState
+  FeedEmptyState,
+  CustomEmptyState,
+  AddPost
 } from '../../components'
 import {
   Skeleton,
@@ -15,6 +17,7 @@ import {
 import { filterPosts, FilterType } from '../../utils/filters'
 import { Post } from '../../interfaces'
 import { useFetchData } from '../../hooks'
+import { LuServerOff } from 'react-icons/lu'
 
 
 export const Feeds: React.FC = () => {
@@ -32,24 +35,31 @@ export const Feeds: React.FC = () => {
         {isLoading ? (
           <FeedSkeleton />
         ) : error ? (
-          <>
-            <FeedSkeleton />
+          <Container>
             <Notification 
               title="Erro ao carregar dados" 
               description="Ocorreu um erro inesperado." 
               type="error" 
             />
-          </>
+            <Flex paddingTop='150px'>
+              <CustomEmptyState
+                icon={<LuServerOff />}
+                title='Erro ao carregar dados.'
+                description='Verifique sua conexão com a internet e tente atualizar a página.'
+              />
+            </Flex>
+          </Container>
         ) : (
-          <div>
+          <Container>
             <Show when={displayPosts.length !== 0} fallback={
               <FeedEmptyState filterType={filter} />
             }>
               {displayPosts.map((post) => (
                 <UserPost key={post.id} {...post} />
               ))}
+              <AddPost />
             </Show>
-          </div>
+          </Container>
         )}
       </Box>
       <Box 

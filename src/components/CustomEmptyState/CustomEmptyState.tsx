@@ -1,5 +1,5 @@
 import { FilterType } from '../../utils/filters'
-import { Group } from '@chakra-ui/react'
+import { Flex, Group } from '@chakra-ui/react'
 import { EmptyState } from '../../components/ui/empty-state'
 import { Button } from '../../components/ui/button'
 import { MdOutlineExplore } from 'react-icons/md'
@@ -76,11 +76,13 @@ export const FeedEmptyState: React.FC<{
   const { icon, title, description, size } = emptyStates[filterType] || {}
 
   return (
-    <EmptyState size={size} icon={icon} title={title} description={description}>
-      <Group>
-        <Button>Fazer nova postagem</Button>
-        <Button variant="outline">Encontrar amigos</Button>
-      </Group>
-    </EmptyState>
+    <Flex paddingTop='150px'>
+      <EmptyState size={size} icon={icon} title={title} description={description}>
+        <Group>
+          <Button>Fazer nova postagem</Button>
+          <Button variant="outline">Encontrar amigos</Button>
+        </Group>
+      </EmptyState>
+    </Flex>
   )
 }

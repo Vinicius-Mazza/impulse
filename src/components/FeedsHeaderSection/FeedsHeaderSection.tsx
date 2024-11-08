@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Flex, Heading, Box, For } from '@chakra-ui/react'
 import { Button } from '../ui/button'
 import { FilterType } from '../../utils/filters'
+// import { ColorModeButton } from "../ui/color-mode"
 
 
 interface FeedsHeaderProps {
@@ -51,6 +52,7 @@ export const FeedsHeaderSection: React.FC<FeedsHeaderProps> = ({ onFilterChange 
               </TabButton>
             )}
           </For>
+          {/* <ColorModeButton /> */}
         </Flex>
       </Flex>
     </Box>

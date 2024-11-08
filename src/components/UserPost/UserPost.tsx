@@ -19,20 +19,20 @@ import { Avatar } from '../ui/avatar'
 import { Button } from '../ui/button'
 import { useFetchData } from '../../hooks'
 import { Post as PostType, FullContent, User } from '../../interfaces'
-import { HoverCardUser } from '../HoverCardUser'
+import { HoverCardUser } from '..'
 import '@vidstack/react/player/styles/default/theme.css'
 import '@vidstack/react/player/styles/default/layouts/video.css'
 
 
 export const UserPost: React.FC<PostType> = (post) => {
-  const userFullname = `${post.user.firstname} ${post.user.lastname}`
+  const userFullName = `${post.user.firstname} ${post.user.lastname}`
   
   return (
-    <Box overflow='hidden' mb={5}>
-    {/* <Box width='809px' overflow='hidden' mb={5}> */}
+    // <Box overflow='hidden' mb={5}>
+    <Box width='809px' overflow='hidden' mb={5}>
       <Box p='4'>
         <Flex align='center' mb='4' gap={3.5}>
-          <Avatar size='lg' name={userFullname} src={post.user.avatar} />
+          <Avatar size='lg' name={userFullName} src={post.user.avatar} />
           <Box>
             <HoverCardUser user={post.user} />
             <Text fontSize='sm' color='gray.500'>
@@ -242,7 +242,7 @@ const MediaContentImage: React.FC<{src: string}> = ({ src }) => {
   const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
     const image = event.target as HTMLImageElement
     const imageWidth = image.naturalWidth - 790
-    setImageDimensions({ width: imageWidth, height: 295 })
+    setImageDimensions({ width: imageWidth, height: 268 })
   }
 
   return (
@@ -265,7 +265,7 @@ const ShowAllImages: React.FC<{hiddenImagesCount: number}> = ({ hiddenImagesCoun
   return (
     <Box
       width="170px"
-      height="295px"
+      height="268px"
       bg="rgba(186, 186, 186, 0.5)"
       borderRadius="2xl"
       display="flex"

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { 
   // Recommendations, 
-  Stories, 
+  Story, 
   SuggestionList 
 } from '.'
 import { CustomEmptyState } from '../CustomEmptyState'
@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { DrawerContent, DrawerRoot } from '../ui/drawer'
 import { useFetchData } from '../../hooks'
-import { Story, User } from '../../interfaces'
+import { Story as StoryType, User } from '../../interfaces'
 import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
@@ -58,7 +58,7 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
   const urlApiUsers = 'http://localhost:3001/users'
   const { data: users } = useFetchData<User[]>(urlApiUsers)
   const urlApiStories = 'http://localhost:3001/stories'
-  const { data: stories } = useFetchData<Story[]>(urlApiStories)
+  const { data: stories } = useFetchData<StoryType[]>(urlApiStories)
   const [page, setPage] = useState(1)
   const pageSize = 2
   const count = (stories || []).length
@@ -131,7 +131,7 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
               }>
                 <Flex gap='3rem'>
                   {visibleItems.map((story, index) => (
-                    <Stories key={index} {...story} />
+                    <Story key={index} {...story} />
                   ))}
                 </Flex>
               </Show>
