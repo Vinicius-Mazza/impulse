@@ -1,39 +1,30 @@
-import { useState, useEffect } from "react";
+import useSWR from "swr";
 
 interface FetchDataResponse<T> {
-  data: T | null;
+  data: T | null | undefined;
   isLoading: boolean;
   error: Error | null;
 }
 
 export const useFetchData = <T>(
   url: string,
-  options?: RequestInit,
-  searchParams?: string
+  options?: RequestInit
 ): FetchDataResponse<T> => {
-  const [data, setData] = useState<T | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const fetcher = (url: string) =>
+    fetch(url, options).then((res) => res.json());
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const fullUrl = `${url}?${searchParams}`;
-        const response = await fetch(fullUrl, options);
-        const data = await response.json();
-        setData(data);
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const { data, error } = useSWR<T>(url, fetcher, {
+    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+      if (retryCount >= 3) return;
 
-    fetchData();
-  }, [url, options, searchParams]);
+      const delay = Math.pow(2, retryCount) * 1000;
+      setTimeout(() => revalidate({ retryCount }), delay);
+    },
+  });
 
-  return { data, isLoading, error };
+  return {
+    data: error ? null : data,
+    isLoading: !error && !data,
+    error,
+  };
 };
