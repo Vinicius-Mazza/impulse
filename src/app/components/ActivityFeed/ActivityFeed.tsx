@@ -84,7 +84,7 @@ const ActivityFeedContent = ({ onClose, ...rest }: ActivityFeedProps) => {
   //   ? shuffleArray(users).slice(0, 3)
   //   : []
 
-  const userSuggestion = users && users.length >= 3 ? users.slice(0, 3) : [];
+  const userSuggestion = users && users.length >= 3 ? users.slice(1, 4) : [];
 
   return (
     <Box

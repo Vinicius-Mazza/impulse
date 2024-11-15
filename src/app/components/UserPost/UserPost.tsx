@@ -20,11 +20,13 @@ import { Button } from "@/components/ui/button";
 import { useFetchData } from "@/hooks";
 import { Post as PostType, FullContent, User } from "@/interfaces";
 import { HoverCardUser } from "@/components";
+import { formatRelativeDate } from "@/utils/dateHelpers";
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
 
 export const UserPost: React.FC<PostType> = (post) => {
   const userFullName = `${post.user.firstname} ${post.user.lastname}`;
+  const dateObject = new Date(post.date);
 
   return (
     // <Box overflow='hidden' mb={5}>
@@ -34,8 +36,8 @@ export const UserPost: React.FC<PostType> = (post) => {
           <Avatar size="lg" name={userFullName} src={post.user.avatar} />
           <Box>
             <HoverCardUser user={post.user} />
-            <Text fontSize="sm" color="gray.500">
-              {new String(post.date)}
+            <Text fontSize="xs" color="gray.500" fontWeight="bold">
+              Postado {formatRelativeDate(dateObject.toISOString())}
             </Text>
           </Box>
         </Flex>
