@@ -6,3 +6,5 @@ export * from "./ActivityFeed";
 export * from "./HoverCardUser";
 export * from "./CustomEmptyState";
 export * from "./AddPost";
+export * from "./TextFormatter";
+export * from "./ImageFormatter";

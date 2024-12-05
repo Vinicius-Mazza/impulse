@@ -14,12 +14,25 @@ interface HoverCardUserProps {
   user: User;
   hoverTrigger?: "mention" | "default";
   cardType?: "suggestion" | "default";
+  fontSize?:
+    | "xs"
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "6xl"
+    | "7xl";
 }
 
 export const HoverCardUser: React.FC<HoverCardUserProps> = ({
   user,
   hoverTrigger = "default",
   cardType = "default",
+  fontSize,
 }) => {
   const [open, setOpen] = useState(false);
   const userFullName = `${user.firstname} ${user.lastname}`;
@@ -36,7 +49,7 @@ export const HoverCardUser: React.FC<HoverCardUserProps> = ({
         fallback={
           <HoverCardTrigger>
             <Link href="#">
-              <Text textAlign="left" fontWeight="bold">
+              <Text fontSize={fontSize} textAlign="left" fontWeight="bold">
                 {userFullName}
               </Text>
             </Link>
@@ -45,7 +58,7 @@ export const HoverCardUser: React.FC<HoverCardUserProps> = ({
       >
         <HoverCardTrigger>
           <Link variant="underline" colorPalette="blue" href="#">
-            {user.firstname}
+            <Text fontSize={fontSize}>{user.firstname}</Text>
           </Link>
         </HoverCardTrigger>
       </Show>

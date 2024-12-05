@@ -1,12 +1,20 @@
 import React from "react";
 import { Toaster, toaster } from "@/components/ui/toaster";
 
+type Placement =
+  | "top-start"
+  | "top"
+  | "top-end"
+  | "bottom-start"
+  | "bottom"
+  | "bottom-end";
+
 interface NotificationProps {
   title: string;
   description: string;
   type?: "success" | "error" | "warning" | "info" | "loading";
   duration?: number;
-  // position?: string
+  placement?: Placement | undefined;
 }
 
 export const Notification: React.FC<NotificationProps> = ({
@@ -14,14 +22,14 @@ export const Notification: React.FC<NotificationProps> = ({
   description,
   type = "info",
   duration = 5000,
-  // position = 'top-right'
+  placement = "bottom-start",
 }) => {
   toaster.create({
     title,
     description,
     type,
     duration,
-    // position
+    placement,
   });
   return <Toaster />;
 };

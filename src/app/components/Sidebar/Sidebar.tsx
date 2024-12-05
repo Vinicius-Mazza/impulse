@@ -28,7 +28,7 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: "Feeds", icon: <FaCompass /> },
   { name: "Mensagens", icon: <IoMail /> },
-  { name: "Forums", icon: <HiChatBubbleLeftRight /> },
+  { name: "Fóruns", icon: <HiChatBubbleLeftRight /> },
   { name: "Amigos", icon: <FaUserGroup /> },
   { name: "Galeria", icon: <FaImage /> },
   { name: "Configurações", icon: <IoSettings /> },

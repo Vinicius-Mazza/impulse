@@ -8,8 +8,10 @@ import {
   Heading,
   HStack,
   Link,
+  IconButton,
+  FormatNumber,
+  Spacer,
 } from "@chakra-ui/react";
-import TruncateMarkup from "react-truncate-markup";
 import { MediaPlayer, MediaProvider } from "@vidstack/react";
 import {
   defaultLayoutIcons,
@@ -17,20 +19,45 @@ import {
 } from "@vidstack/react/player/layouts/default";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useFetchData } from "@/hooks";
-import { Post as PostType, FullContent, User } from "@/interfaces";
-import { HoverCardUser } from "@/components";
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "@/components/ui/menu";
+import { Post as PostType, FullContent } from "@/interfaces";
+import {
+  HoverCardUser,
+  CommentsSection,
+  TextFormatter,
+  ImageFormatter,
+} from "@/components";
 import { formatRelativeDate } from "@/utils/dateHelpers";
+import { LiaComment } from "react-icons/lia";
+import { SlOptionsVertical } from "react-icons/sl";
+import {
+  IoHeart,
+  IoHeartOutline,
+  IoShareSocial,
+  IoFlag,
+} from "react-icons/io5";
+import { FaUserLargeSlash } from "react-icons/fa6";
+import { MdOutlineSaveAlt } from "react-icons/md";
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
 
 export const UserPost: React.FC<PostType> = (post) => {
+  const [isCommentsVisible, setIsCommentsVisible] = useState(false);
+
+  const toggleLocalCommentsVisibility = () => {
+    setIsCommentsVisible(!isCommentsVisible);
+  };
   const userFullName = `${post.user.firstname} ${post.user.lastname}`;
   const dateObject = new Date(post.date);
 
   return (
-    // <Box overflow='hidden' mb={5}>
-    <Box width="809px" overflow="hidden" mb={5}>
+    <Box overflow="hidden" mb={5}>
+      {/* <Box width="809px" overflow="hidden" mb={5}> */}
       <Box p="4">
         <Flex align="center" mb="4" gap={3.5}>
           <Avatar size="lg" name={userFullName} src={post.user.avatar} />
@@ -40,40 +67,117 @@ export const UserPost: React.FC<PostType> = (post) => {
               Postado {formatRelativeDate(dateObject.toISOString())}
             </Text>
           </Box>
+          <Spacer />
+          <PostOptions />
         </Flex>
         {/* ... (imagens, emojis, etc.) */}
-        <MediaContent content={post.content} />
-        <HStack mt={2}>
-          <Button variant="ghost" colorScheme="teal" size="sm">
-            Like {post.likes}
-          </Button>
-          <Button variant="ghost" colorScheme="teal" size="sm">
-            Comentarios
-          </Button>
+        <PostContent content={post.content} />
+        <HStack mt={2} gap="5">
+          <HStack gap="-1">
+            <IconButton variant="plain" color="pink.600" size="xs">
+              <IoHeartOutline />
+            </IconButton>
+            <HStack>
+              <Text>Like</Text>
+              <Show when={post.likes !== 0}>
+                <Text>
+                  <FormatNumber
+                    value={post.likes}
+                    notation="compact"
+                    compactDisplay="short"
+                  />
+                </Text>
+              </Show>
+            </HStack>
+          </HStack>
+          <HStack>
+            <Link variant="plain" onClick={toggleLocalCommentsVisibility}>
+              <LiaComment />
+              <Text>Comentários</Text>
+            </Link>
+            <Show when={post.comments.length !== 0}>
+              <Text>
+                <FormatNumber
+                  value={post.comments.length}
+                  notation="compact"
+                  compactDisplay="short"
+                />
+              </Text>
+            </Show>
+          </HStack>
+          <Link variant="plain">
+            <IoShareSocial />
+            <Text>Compartilhar</Text>
+          </Link>
         </HStack>
+        {isCommentsVisible && (
+          <Box>
+            {/* Seção de comentários */}
+            <CommentsSection {...post.comments} />
+          </Box>
+        )}
       </Box>
     </Box>
   );
 };
 
-const MediaContent: React.FC<{ content: FullContent }> = ({ content }) => {
+const PostOptions: React.FC = () => {
+  return (
+    <MenuRoot positioning={{ placement: "left-start" }}>
+      <MenuTrigger asChild>
+        <IconButton aria-label="Post menu" variant="outline" rounded="full">
+          <SlOptionsVertical />
+        </IconButton>
+      </MenuTrigger>
+      <MenuContent>
+        <MenuItem value="save">
+          <MdOutlineSaveAlt />
+          Salvar postagem
+        </MenuItem>
+        <MenuItem value="block">
+          <FaUserLargeSlash />
+          Bloquear usuário
+        </MenuItem>
+        <MenuItem
+          value="delete"
+          color="fg.error"
+          _hover={{ bg: "bg.error", color: "fg.error" }}
+        >
+          <IoFlag />
+          Denunciar Postagem
+        </MenuItem>
+      </MenuContent>
+    </MenuRoot>
+  );
+};
+
+const PostContent: React.FC<{ content: FullContent }> = ({ content }) => {
   const visibleImagesCount = 5;
 
   return (
     <Box>
       {content.map((item, index) => (
         <Flex key={index}>
-          {item.text && <TextContent text={item.text} />}
+          {item.text && <TextFormatter text={item.text} />}
           {item.image && (
             <Flex wrap="wrap" justifyContent="start" gap={1.5}>
               {Array.isArray(item.image) ? (
                 item.image
                   .slice(0, visibleImagesCount)
                   .map((img, imgIndex) => (
-                    <MediaContentImage key={imgIndex} src={img.url} />
+                    <ImageFormatter
+                      key={imgIndex}
+                      src={img.url}
+                      widthCalc={790}
+                      heightCalc={268}
+                    />
                   ))
               ) : (
-                <MediaContentImage src={item.image} />
+                <ImageFormatter
+                  src={item.image}
+                  widthCalc={790}
+                  heightCalc={268}
+                />
               )}
               <Show when={item.image.length > visibleImagesCount}>
                 <ShowAllImages
@@ -86,191 +190,6 @@ const MediaContent: React.FC<{ content: FullContent }> = ({ content }) => {
         </Flex>
       ))}
     </Box>
-  );
-};
-
-const TextContent: React.FC<{ text: string }> = ({ text }) => {
-  const urlApiUsers = "http://localhost:3001/users";
-  const { data: users } = useFetchData<User[]>(urlApiUsers);
-  const [isTruncated, setIsTruncated] = useState(true);
-
-  interface Element {
-    type: string;
-    value: string;
-  }
-
-  const renderMention = (username: string) => {
-    const user = (users || []).find((user) => user.username === username);
-    return (
-      <span key={username}>
-        <TruncateMarkup.Atom key={username}>
-          <Show when={user} fallback={`@${username}`}>
-            <>
-              <Avatar
-                size="2xs"
-                name={`${user?.firstname ?? ""} ${user?.lastname ?? ""}`}
-                src={user?.avatar ?? ""}
-              />
-              &nbsp;
-              {user && <HoverCardUser user={user} hoverTrigger="mention" />}
-            </>
-          </Show>
-        </TruncateMarkup.Atom>
-      </span>
-    );
-  };
-
-  const renderUrl = (url: string) => {
-    return (
-      <Link
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        colorPalette="blue"
-        key={url}
-      >
-        {url}
-      </Link>
-    );
-  };
-
-  const renderHashtag = (hashtag: string) => {
-    return (
-      <Link href={`/search?query=${hashtag}`} colorPalette="blue" key={hashtag}>
-        #{hashtag}
-      </Link>
-    );
-  };
-
-  const renderFormattedText = (text: string) => {
-    const regexes = [
-      { type: "mention", regex: /@(\w+)/g },
-      {
-        type: "url",
-        regex:
-          /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)+(?:[/?#][^\s]*)?)/gi,
-      },
-      { type: "hashtag", regex: /#(\w+)/g },
-    ];
-
-    const renderers = [
-      { type: "mention", render: renderMention },
-      { type: "url", render: renderUrl },
-      { type: "hashtag", render: renderHashtag },
-    ];
-
-    const elements: Element[] = [];
-    let lastIndex = 0;
-
-    regexes.forEach(({ type, regex }) => {
-      let match;
-      while ((match = regex.exec(text)) !== null) {
-        elements.push({
-          type: "text",
-          value: text.substring(lastIndex, match.index),
-        });
-        elements.push({ type: type, value: match[1] });
-        lastIndex = match.index + match[0].length;
-      }
-    });
-
-    if (lastIndex < text.length) {
-      elements.push({ type: "text", value: text.substring(lastIndex) });
-    }
-
-    return (
-      <Text as="div">
-        {elements.map((element) => {
-          const renderer = renderers.find((r) => r.type === element.type);
-          return renderer ? renderer.render(element.value) : element.value;
-        })}
-      </Text>
-    );
-  };
-
-  const toggleTruncate = () => {
-    setIsTruncated(!isTruncated);
-  };
-
-  const readMoreEllipsis = (
-    <span>
-      ...
-      <br />
-      <Link color="#8f8f8f" onClick={toggleTruncate}>
-        Ver mais
-      </Link>
-    </span>
-  );
-
-  return (
-    <div>
-      <Show
-        when={isTruncated}
-        fallback={
-          <Text
-            as="div"
-            whiteSpace="pre-wrap"
-            fontSize="md"
-            lineHeight="1.6"
-            mb={5}
-            fontWeight="500"
-            width="100%"
-          >
-            {renderFormattedText(text)}
-            <br />
-            <Link color="#8f8f8f" onClick={toggleTruncate}>
-              Ver menos
-            </Link>
-          </Text>
-        }
-      >
-        <TruncateMarkup lines={4} ellipsis={readMoreEllipsis}>
-          <Text
-            as="div"
-            whiteSpace="pre-wrap"
-            fontSize="md"
-            lineHeight="1.6"
-            mb={5}
-            fontWeight="500"
-            width="100%"
-          >
-            {renderFormattedText(text)}
-          </Text>
-        </TruncateMarkup>
-      </Show>
-    </div>
-  );
-};
-
-const MediaContentImage: React.FC<{ src: string }> = ({ src }) => {
-  const [imageDimensions, setImageDimensions] = useState<{
-    width: number;
-    height: number;
-  }>({
-    width: 0,
-    height: 0,
-  });
-  const imageRef = useRef<HTMLImageElement>(null);
-
-  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
-    const image = event.target as HTMLImageElement;
-    const imageWidth = image.naturalWidth - 790;
-    setImageDimensions({ width: imageWidth, height: 268 });
-  };
-
-  return (
-    <Flex wrap="wrap">
-      <Image
-        ref={imageRef}
-        onLoad={handleImageLoad}
-        width={imageDimensions.width}
-        height={imageDimensions.height}
-        borderRadius="2xl"
-        mb={0.8}
-        src={src}
-        alt="postImage"
-      />
-    </Flex>
   );
 };
 
