@@ -21,6 +21,7 @@ import {
 import { HoverCardUser, TextFormatter, ImageFormatter } from "@/components";
 import { Comment as CommentType, FullContentComment, User } from "@/interfaces";
 import { InputGroup } from "@/components/ui/input-group";
+// import { Button } from "@/components/ui/button";
 import { formatRelativeDate } from "@/utils/dateHelpers";
 import { Avatar } from "@/components/ui/avatar";
 import { useFetchData } from "@/hooks";
@@ -29,6 +30,7 @@ import { IoSend } from "react-icons/io5";
 import { IoMdShareAlt } from "react-icons/io";
 import { IoHeart, IoHeartOutline, IoFlag } from "react-icons/io5";
 import { SlOptionsVertical } from "react-icons/sl";
+import { RiImageAddLine } from "react-icons/ri";
 
 export const CommentsSection: React.FC<CommentType[]> = (comments) => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -64,6 +66,7 @@ export const CommentsSection: React.FC<CommentType[]> = (comments) => {
           onReplyClick={() => handleReplyClick(comment.user.username)}
         />
       ))}
+      {/* <HStack> */}
       <InputGroup
         startElement={
           <Avatar size="xs" right="10px" name={userFullName} src={userAvatar} />
@@ -80,12 +83,14 @@ export const CommentsSection: React.FC<CommentType[]> = (comments) => {
               <FaSmile />
             </IconButton>
             <IconButton left="13px" rounded="full" size="lg" variant="plain">
-              <IoSend />
+              {/* <IoSend /> */}
+              <RiImageAddLine />
             </IconButton>
           </HStack>
         }
       >
         <Input
+          // width="680px"
           ps="2.75em"
           borderRadius="full"
           ref={inputRef}
@@ -106,6 +111,15 @@ export const CommentsSection: React.FC<CommentType[]> = (comments) => {
           onChange={(e) => setReplyValue(e.target.value)}
         /> */}
       </InputGroup>
+      {/* <Button
+          borderRadius="full"
+          backgroundColor={{ base: "#000", _dark: "#f3f1f1" }}
+          color={{ base: "#fff", _dark: "#000" }}
+          width="12%"
+        >
+          Enviar
+        </Button> */}
+      {/* </HStack> */}
     </Flex>
   );
 };
